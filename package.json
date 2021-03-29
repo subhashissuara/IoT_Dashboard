@@ -1,0 +1,15 @@
+{
+  "name": "iot_dashboard",
+  "version": "1.0.0",
+  "description": "An IoT Dashboard.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Subhashis Suara",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
