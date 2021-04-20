@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Dashboard.css";
+import Navbar from "./NavBar";
 
 const Dashboard = ({ history }) => {
   const [error, setError] = useState("");
@@ -25,23 +26,23 @@ const Dashboard = ({ history }) => {
       } catch (error) {
         localStorage.removeItem("authToken");
         setError("You are not authorized please login");
+        setTimeout(() => {
+          history.push("/login");
+        }, 3000);
       }
     };
 
     fetchPrivateDate();
   }, [history]);
 
-  const logoutHandler = () => {
-    localStorage.removeItem("authToken");
-    history.push("/login");
-  };
-
   return error ? (
     <span className="error-message">{error}</span>
   ) : (
     <>
-      <div>{privateData}</div>
-      <button onClick={logoutHandler}>Logout</button>
+      <Navbar history={history} />
+      <div className="data">
+        <div>{privateData}</div>
+      </div>
     </>
   );
 };

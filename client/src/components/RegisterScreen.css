@@ -6,20 +6,20 @@
   align-items: center;
 }
 
-.register-screen__form {
+.register-screen-form {
   width: 380px;
-  padding: 1.5rem;
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   background: #fff;
 }
 
-.register-screen__title {
+.register-screen-title {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
 }
 
-.register-screen__subtext {
-  font-size: 0.7rem;
+.register-screen-subtext {
+  font-size: 12px;
   display: block;
-  margin: 0.5rem 0;
+  margin: 5px 0;
 }

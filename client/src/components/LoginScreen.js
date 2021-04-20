@@ -43,11 +43,11 @@ const LoginScreen = ({ history }) => {
 
   return (
     <div className="login-screen">
-      <form onSubmit={loginHandler} className="login-screen__form">
-        <h3 className="login-screen__title">Login</h3>
+      <form onSubmit={loginHandler} className="login-screen-form">
+        <h2 className="login-screen-title">IoT Dashboard</h2>
         {error && <span className="error-message">{error}</span>}
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             required
@@ -59,13 +59,13 @@ const LoginScreen = ({ history }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             required
             id="password"
             autoComplete="true"
-            placeholder="Enter password"
+            placeholder="Enter your password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             tabIndex={2}
@@ -75,7 +75,7 @@ const LoginScreen = ({ history }) => {
           Login
         </button>
 
-        <span className="login-screen__subtext">
+        <span className="login-screen-subtext">
           Don't have an account? <Link to="/register">Register</Link>
         </span>
       </form>

@@ -1,12 +1,12 @@
 import { Redirect, Route } from "react-router-dom";
 
-const DashboardRoute = ({ component: Component, ...rest }) => {
+const DashboardRoute = ({ component: Dashboard, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
+      render={(routeProps) =>
         localStorage.getItem("authToken") ? (
-          <Component {...props} />
+          <Dashboard {...routeProps} />
         ) : (
           <Redirect to="/login" />
         )
