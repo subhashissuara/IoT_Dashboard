@@ -35,7 +35,9 @@ nav {
   cursor: pointer;
   width: 100%;
   font-size: 14px;
+  font-weight: 700;
   border: none;
   border-radius: 2px;
-  background-color: #ffb703;
+  color: #023047;
+  background-color: #fb8500;
 }

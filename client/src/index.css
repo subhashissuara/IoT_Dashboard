@@ -23,6 +23,7 @@ body {
 
 .form-group label {
   font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .form-group input {
@@ -35,7 +36,7 @@ body {
 }
 
 .form-group input:focus {
-  border-bottom: 3px solid lightgreen;
+  border-bottom: 3px solid #ffb703;
 }
 
 .btn {
@@ -52,7 +53,8 @@ body {
 }
 
 .btn-primary {
-  background-color: turquoise;
+  font-weight: 700;
+  background-color: #ffb703;
   color: #ffffff;
 }
 

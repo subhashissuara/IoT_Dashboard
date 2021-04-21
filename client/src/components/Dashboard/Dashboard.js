@@ -1,7 +1,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Dashboard.css";
-import Navbar from "./NavBar";
+import Navbar from "../NavBar/NavBar";
+import { LDRConfig } from "./sensorConfigs";
+import Sensor from "../Sensor/Sensor";
+
+const data = {
+  sensorData: {
+    sensorType: "photoresistor",
+    sensorStatus: "Light",
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString(),
+    sensorValue: 8000,
+  },
+};
 
 const Dashboard = ({ history }) => {
   const [error, setError] = useState("");
@@ -41,7 +53,7 @@ const Dashboard = ({ history }) => {
     <>
       <Navbar history={history} />
       <div className="data">
-        <div>{privateData}</div>
+        <Sensor sensorConfig={LDRConfig} sensorPayload={data} />
       </div>
     </>
   );

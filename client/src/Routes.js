@@ -4,9 +4,9 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import DashboardRoute from "./routing/DashboardRoute";
 
 // Screens
-import Dashboard from "./components/Dashboard";
-import LoginScreen from "./components/LoginScreen";
-import RegisterScreen from "./components/RegisterScreen";
+import Dashboard from "./components/Dashboard/Dashboard";
+import LoginScreen from "./components/LoginScreen/LoginScreen";
+import RegisterScreen from "./components/RegisterScreen/RegisterScreen";
 
 const Routes = () => {
   return (
