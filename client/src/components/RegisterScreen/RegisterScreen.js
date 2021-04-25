@@ -36,7 +36,7 @@ const RegisterScreen = ({ history }) => {
 
     try {
       const { data } = await axios.post(
-        "/api/auth/register",
+        "/api/authenticate/register",
         {
           username,
           email,

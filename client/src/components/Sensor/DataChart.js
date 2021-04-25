@@ -1,22 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-streaming";
 import chartColors from "./chartColors";
 
-function LDRValue() {
-  return Math.random() * 10000;
+var savedData = {};
+
+function DataTimeCheck(timestamp) {
+  if (Date.now() - timestamp < 2000) {
+    return savedData.sensorValue;
+  }
+  return null;
 }
 
 function onRefresh(chart) {
   chart.config.data.datasets.forEach(function (dataset) {
     dataset.data.push({
-      x: Date.now(),
-      y: LDRValue(),
+      x: savedData.timestamp || Date.now(),
+      y: DataTimeCheck(savedData.timestamp),
     });
   });
 }
 
-const DataChart = ({ config }) => {
+const DataChart = ({ config, sensorData }) => {
+  useEffect(() => {
+    savedData = sensorData;
+  }, [sensorData]);
+
   return (
     <div className="data-chart">
       <Line
@@ -46,7 +55,7 @@ const DataChart = ({ config }) => {
                 realtime: {
                   duration: 30000,
                   refresh: 1000,
-                  delay: 1000,
+                  delay: 2000,
                   onRefresh: onRefresh,
                 },
               },

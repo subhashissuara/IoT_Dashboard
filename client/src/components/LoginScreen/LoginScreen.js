@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./LoginScreen.css";
 
 const LoginScreen = ({ history }) => {
@@ -25,7 +25,7 @@ const LoginScreen = ({ history }) => {
 
     try {
       const { data } = await axios.post(
-        "/api/auth/login",
+        "/api/authenticate/login",
         { email, password },
         config
       );
@@ -75,9 +75,9 @@ const LoginScreen = ({ history }) => {
           Login
         </button>
 
-        <span className="login-screen-subtext">
+        {/* <span className="login-screen-subtext">
           Don't have an account? <Link to="/register">Register</Link>
-        </span>
+        </span> */}
       </form>
     </div>
   );

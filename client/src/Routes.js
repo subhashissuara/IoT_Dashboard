@@ -6,7 +6,7 @@ import DashboardRoute from "./routing/DashboardRoute";
 // Screens
 import Dashboard from "./components/Dashboard/Dashboard";
 import LoginScreen from "./components/LoginScreen/LoginScreen";
-import RegisterScreen from "./components/RegisterScreen/RegisterScreen";
+// import RegisterScreen from "./components/RegisterScreen/RegisterScreen";
 
 const Routes = () => {
   return (
@@ -14,7 +14,7 @@ const Routes = () => {
       <Switch>
         <DashboardRoute exact path="/" component={Dashboard} />
         <Route exact path="/login" component={LoginScreen} />
-        <Route exact path="/register" component={RegisterScreen} />
+        {/* <Route exact path="/register" component={RegisterScreen} /> */}
       </Switch>
     </BrowserRouter>
   );

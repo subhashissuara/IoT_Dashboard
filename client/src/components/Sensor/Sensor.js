@@ -3,7 +3,7 @@ import DataChart from "./DataChart";
 import "./Sensor.css";
 import classNames from "classnames";
 
-const Sensor = ({ sensorConfig, sensorPayload }) => {
+const Sensor = ({ sensorConfig, sensorData }) => {
   const [deviceStatus, setDeviceStatus] = useState("Offline");
   const [indicatorClass, setIndicatorClass] = useState(
     classNames("indicator", "offline")
@@ -12,20 +12,43 @@ const Sensor = ({ sensorConfig, sensorPayload }) => {
   const [sensorLastUpdated, setSensorLastUpdated] = useState("Not Available");
 
   useEffect(() => {
-    if (sensorPayload.sensorData) {
+    if (
+      sensorData.sensorType &&
+      sensorData.sensorType.toLowerCase() === sensorConfig.name.toLowerCase()
+    ) {
       setDeviceStatus("Online");
       setIndicatorClass(classNames("indicator", "online"));
-      setSensorStatus(sensorPayload.sensorData.sensorStatus);
-      setSensorLastUpdated(
-        `${sensorPayload.sensorData.date} ${sensorPayload.sensorData.time}`
-      );
+      if (sensorData.sensorStatus) {
+        setSensorStatus(sensorData.sensorStatus);
+      }
+      if (sensorData.timestamp) {
+        setSensorLastUpdated(
+          `${new Date(sensorData.timestamp).toDateString()} at ${new Date(
+            sensorData.timestamp
+          )
+            .toLocaleTimeString("en-IN")
+            .replace("am", "AM")
+            .replace("pm", "PM")}`
+        );
+      }
     } else {
       setDeviceStatus("Offline");
       setIndicatorClass(classNames("indicator", "offline"));
       setSensorStatus("Not Available");
       setSensorLastUpdated("Not Available");
     }
-  }, [sensorPayload]);
+    var DataTimeCheck = setInterval(() => {
+      if (Date.now() - sensorData.timestamp > 2000) {
+        setDeviceStatus("Offline");
+        setIndicatorClass(classNames("indicator", "offline"));
+        setSensorStatus("Not Available");
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(DataTimeCheck);
+    };
+  }, [sensorData, sensorConfig]);
 
   return (
     <div className="sensor-container">
@@ -43,7 +66,7 @@ const Sensor = ({ sensorConfig, sensorPayload }) => {
         </div>
       </div>
       <div className="sensor-chart">
-        <DataChart config={sensorConfig.chart} />
+        <DataChart config={sensorConfig.chart} sensorData={sensorData} />
       </div>
     </div>
   );

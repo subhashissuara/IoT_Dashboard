@@ -1,30 +1,46 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Dashboard.css";
 import Navbar from "../NavBar/NavBar";
 import { LDRConfig } from "./sensorConfigs";
 import Sensor from "../Sensor/Sensor";
 
-const data = {
-  sensorData: {
-    sensorType: "photoresistor",
-    sensorStatus: "Light",
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString(),
-    sensorValue: 8000,
-  },
-};
-
 const Dashboard = ({ history }) => {
   const [error, setError] = useState("");
-  const [privateData, setPrivateData] = useState("");
+  const [sensorData, setSensorData] = useState({});
+  const ws = useRef(null);
 
   useEffect(() => {
     if (!localStorage.getItem("authToken")) {
       history.push("/login");
     }
 
-    const fetchPrivateDate = async () => {
+    const connectWebSocket = () => {
+      ws.current = new WebSocket("ws://localhost:5000");
+      const jsonClientType = {
+        type: "CLIENT",
+      };
+
+      ws.current.onopen = () => {
+        console.log("Connected to Server!");
+        ws.current.send(JSON.stringify(jsonClientType));
+      };
+
+      ws.current.onerror = (error) => {
+        console.log(`Error: ${error}`);
+      };
+
+      ws.current.onclose = () => {
+        console.log("Disconnected from Server!");
+        // Implement Reconnecting Method
+      };
+
+      ws.current.onmessage = ({ data }) => {
+        setSensorData(JSON.parse(data));
+      };
+    };
+
+    const authenticate = async () => {
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -33,8 +49,10 @@ const Dashboard = ({ history }) => {
       };
 
       try {
-        const { data } = await axios.get("/api/private", config);
-        setPrivateData(data.data);
+        const { data } = await axios.get("/api/authorize", config);
+        if (data.data === "ACCESS_GRANTED") {
+          connectWebSocket();
+        }
       } catch (error) {
         localStorage.removeItem("authToken");
         setError("You are not authorized please login");
@@ -44,7 +62,13 @@ const Dashboard = ({ history }) => {
       }
     };
 
-    fetchPrivateDate();
+    authenticate();
+
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+      }
+    };
   }, [history]);
 
   return error ? (
@@ -53,7 +77,7 @@ const Dashboard = ({ history }) => {
     <>
       <Navbar history={history} />
       <div className="data">
-        <Sensor sensorConfig={LDRConfig} sensorPayload={data} />
+        <Sensor sensorConfig={LDRConfig} sensorData={sensorData} />
       </div>
     </>
   );
